@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LetItSnow from 'vue-let-it-snow';
 
 Vue.use(VueRouter)
+Vue.use(LetItSnow)
 
 const routes = [
   {

@@ -35,6 +35,8 @@ export default {
 .page{
     height: 100vh;
     width: 100%;
+    position: relative;
+    z-index: 2;
 }
 
 .page__wrapper{

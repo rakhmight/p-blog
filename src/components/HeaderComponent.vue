@@ -3,7 +3,7 @@
         <div class="container">
           <div class="header__wrapper">
             <router-link to="/blog">
-              <div class="logo"></div>
+              <div class="logo" v-bind:class="logoClass"></div>
             </router-link>
             <nav class="header__nav">
               <router-link to="/"><p v-text="$ml.get('navMain')"></p></router-link>
@@ -34,21 +34,36 @@
            
           </div>
         </div>
+
+        <div class="snow-wrapper" v-if="isExWinter">
+          <div class="snow"></div>
+        </div>
       </header>
 </template>
 
 <script>
+import checkWinter from '../plugins/checkWinter'
+
 export default {
   name: 'HeaderComponent',
     props: {
+      isWinter: Boolean,
     },
     data(){
       return{
         showLoader:{
-          home:true
-        }
+          home:true,
+        },
+        isExWinter: false,
+        logoClass: 'logo-default'
       }
-    }
+    },
+    mounted() {
+      if(checkWinter()){
+        this.isExWinter = checkWinter()
+        this.logoClass = 'logo-winter'
+      }
+    },
 }
 </script>
 
@@ -61,6 +76,24 @@ header{
   top:0;
   z-index: 5;
 }
+
+.snow__wrapper{
+  position: relative;
+  width: 100%;
+  height: 90px;
+}
+.snow{
+  position: absolute;
+  width: 100%;
+  background-image: url(../assets/media/snow.png);
+  background-repeat: repeat-x;
+  height: 50px;
+  background-size: contain;
+  opacity: 0.95;
+  top:68px;
+  left:0;
+}
+
 .header__wrapper{
   width: 100%;
   height: 90px;
@@ -90,13 +123,14 @@ a[neutral-nav]{
   color:#5a5a5a;
   text-decoration: none;
 }
-.header__nav>a:hover{
+.header__nav>a:not(.router-link-exact-active):hover{
   text-shadow:0 0 5px #399AF4,0 0 7px #399AF4, 0 0 10px #399AF4;
 }
 .lang-active{
   background-color: #5a5a5a;
 }
 .languages{
+  z-index: 2;
 }
 .languages__menu{
   position: relative;
@@ -145,8 +179,16 @@ a[neutral-nav]{
 }
 
 .logo{
+  background-size: contain;
+}
+.logo-default{
   width: 40px;
   height: 40px;
   background-image: url('../assets/media/logo.svg');
+}
+.logo-winter{
+  width: 60px;
+  height: 60px;
+  background-image: url(../assets/media/logo-christmas.svg);
 }
 </style>

@@ -4,6 +4,7 @@
 
         <div class="layers">
             <div class="layer__content">
+                <div class="santa-hat" v-if="isWinter"></div>
                 <div class="layers__photo"></div>
                 <div class="layers__title">Person</div>
                 <div class="layers__subtitle">some text about youself</div>
@@ -89,12 +90,71 @@
             </section>
 
             <section>
-                <div class="anime">
+                <div class="anime-list">
                     <div class="anime__title">
                         <light-text :text="'Последние добавленные аниме'"></light-text>
                     </div>
 
-                    <div class="anime__content"></div>
+                    <div class="anime__content">
+                        <div class="anime__carousel">
+                            <ani-new-carousel></ani-new-carousel>
+                        </div>
+                    </div>
+
+                    <div class="anime__btn">
+                        <btn :btnUrl="'/anime'" :btnText="'Перейти к списку'" />
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="rand-quote">
+                    <div class="quote__title">
+                        <light-text :text="'Случайная цитата'"></light-text>
+                    </div>
+
+                    <div class="quote__content">
+                        <div class="quote">
+                            <div class="quote__main">
+                                <div class="quote__picture">
+                                    <div class="quote__icon"></div>
+                                </div>
+                                <div class="quote__metter">
+                                    <div class="quote__text" id="quote-text">{{ quoteText }}</div>
+                                    <div class="quote__author" id="quote-author">{{ quoteAuthor }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="grade">
+                    <div class="grade__title">
+                        <light-text :text="'Оцените блог'"></light-text>
+                    </div>
+
+                    <div class="grade__content">
+                        <div class="grade__box" v-if="!appreciated">
+                            <div class="grade__star grade__star_passive" v-on:click="grade(1)"></div>
+                            <div class="grade__star grade__star_passive" v-on:click="grade(2)"></div>
+                            <div class="grade__star grade__star_passive" v-on:click="grade(3)"></div>
+                            <div class="grade__star grade__star_passive" v-on:click="grade(4)"></div>
+                            <div class="grade__star grade__star_passive" v-on:click="grade(5)"></div>
+                        </div>
+                        <div class="grade__box" v-else>
+                            <div class="grade__star grade__star_passive"></div>
+                            <div class="grade__star grade__star_passive"></div>
+                            <div class="grade__star grade__star_passive"></div>
+                            <div class="grade__star grade__star_passive"></div>
+                            <div class="grade__star grade__star_passive"></div>
+                            <!-- <div class="grade__star grade__star_active"></div> -->
+                        </div>
+
+                        <div class="grade__text" v-if="gradeMark>0">Ваша оценка: {{gradeMark}}</div>
+                        <div class="grade__text" v-else>Поставьте оценку 😉</div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -109,30 +169,151 @@ import StatisticsCard from '../components/StatisticsCard.vue'
 import Btn from '../components/Btn.vue'
 import Post from '../components/Post.vue'
 import Lebel from '../components/Lebel.vue'
+import axios from 'axios'
+import JSConfetti from 'js-confetti'
+import checkWinter from '../plugins/checkWinter'
+import AniNewCarousel from '../components/AniNewCarousel.vue';
 
 export default {
   data(){
     return {
+        quoteText: '',
+        quoteAuthor: '',
+        appreciated: false,
+        gradeMark: 0,
+        isWinter: false,
     }
   },
   mounted(){
     parallaxPlugin()
+    this.getQuote()
+
+    if(!this.appreciated){
+        if(localStorage.getItem('grade')){
+            this.appreciated = true
+            this.gradeCurrentMark()
+        } else {
+            this.gradeWatch()
+        }
+    }
+
+    this.exGrade()
+
+    this.isWinter = checkWinter()
+  },
+  watch:{
+    appreciated: function (){
+        this.exGrade()
+        this.gradeCurrentMark()
+    },
+  },
+  methods:{
+    confetti: function (mark){
+        let canvas = document.getElementById('confetti')
+        const jsConfetti = new JSConfetti({ canvas })
+        setTimeout(() => {
+            jsConfetti.addConfetti()
+        }, 500)
+
+        let emoj
+        if(mark==1){
+            emoj = ['😑', '😑', '😑', '✨']
+        }else if(mark==2){
+            emoj = ['😐', '😐', '😐', '✨']
+        }else if(mark==3){
+            emoj = ['🙂', '🙂', '🙂', '✨']
+        }else if(mark==4){
+            emoj = ['😉', '😉', '😉', '✨']
+        }else if(mark==5){
+            emoj = ['🤩', '🤩', '🤩', '✨']
+        }
+
+        jsConfetti.addConfetti({
+            emojis: emoj
+        })
+    },
+    getQuote: function () {
+      this.quoteText = 'Some text'
+      this.quoteAuthor = 'Some author'
+      let vq = this
+
+      axios.get('https://type.fit/api/quotes')
+        .then(function (response) {
+            const allQuotes = response.data
+            const indx = Math.floor(Math.random()*allQuotes.length)
+            const quote=allQuotes[indx].text
+            const author=allQuotes[indx].author
+
+            vq.quoteText = quote
+            vq.quoteAuthor = author ? author : 'Anonim'
+        })
+        .catch(function (error) {
+          console.error(`Возникли проблемы с API цитат: ${error}`)
+        })
+    },
+    gradeWatch: function () {
+        let stars = document.querySelectorAll('.grade__star')
+
+        for(let i = 0; i!=stars.length; i++){
+            stars[i].addEventListener("mouseover", ()=>{
+                for(let g=i; g!=-1; g--){
+                    stars[g].classList.replace("grade__star_passive", "grade__star_onchoise")
+                }
+            })
+            stars[i].addEventListener("mouseout", ()=>{
+                for(let g=i; g!=-1; g--){
+                    stars[g].classList.replace("grade__star_onchoise", "grade__star_passive")
+                }
+            })
+        }
+    },
+    grade: function (mark){
+        // СОХРАНЕНИЕ ОЦЕНКИ В БД
+
+        let data = JSON.stringify({
+            mark,
+            date: new Date()
+        })
+
+        localStorage.setItem('grade', data)
+        this.appreciated = true
+
+        this.confetti(mark)
+    },
+    exGrade: function (){
+        if(this.appreciated){
+            let currentStars = document.querySelectorAll('.grade__star')
+            let mark = JSON.parse(localStorage.getItem('grade'))
+
+            for(let m = 0; m!=mark.mark; m++){
+                currentStars[m].classList.add("grade__star_active")
+            }
+        }
+    },
+    gradeCurrentMark: function (){
+        let mark = JSON.parse(localStorage.getItem('grade'))
+        this.gradeMark = mark.mark
+    }
   },
   components:{
     LightText,
     StatisticsCard,
     Btn,
     Post,
-    Lebel
+    Lebel,
+    AniNewCarousel
   }
 }
-
 </script>
 
 <style>
 .home{
   position: relative;
   will-change: transform;
+}
+
+section{
+    width: 100%;
 }
 
 .layers{
@@ -183,6 +364,17 @@ export default {
     z-index: 2; 
     transform: translate3d(0, calc(var(--scrollTop) / 2),0);
     transition: var(--transition);
+    position: relative;
+}
+.santa-hat{
+    position: absolute;
+    height: 120px;
+    width: 120px;
+    top: -50px;
+    left: -5px;
+    background-image: url(../assets/media/santa-hat.svg);
+    background-size: cover;
+    transform: rotate(-6deg);
 }
 
 .layers__photo{
@@ -282,6 +474,7 @@ padding: 10px 0 0px;
     justify-content: space-between;
     text-align: left;
 }
+
 .about__image{
     width: 323px;
     height: 405px;
@@ -321,4 +514,99 @@ padding: 10px 0 0px;
     margin-top: 30px;
 }
 
+.anime-list{
+    width: 100%;
+}
+.anime__content{
+    margin-top: 30px;
+    width: 100%;
+}
+.anime__btn{
+    margin-top: 30px;
+}
+.anime__carousel{
+}
+.carousel-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+}
+.carousel-controls{
+    position: absolute;
+}
+.carousel-prev{
+
+}
+.carousel-next{
+}
+
+
+
+.quote{
+    width: 980px;
+    background-color: #2A2E35;
+    padding: 15px 30px;
+    border-radius: 15px;
+}
+.quote__main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.quote__text{
+    width: 860px;
+    text-align: start;
+    font-size: 20px;
+}
+.quote__picture{
+    border-right: 1px solid #505050;
+    padding-right: 5px;
+}
+.quote__icon{
+    width: 38px;
+    height: 45px;
+    background-image: url(../assets/media/quote.svg);
+}
+.quote__author{
+    color: #7F8083;
+    text-align: start;
+    margin-top: 20px;
+}
+.quote__content{
+    margin-top: 30px;
+}
+
+
+.grade__content{
+    width: 100%;
+    margin-top: 0px;
+}
+.grade__box{
+    width: 525px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.grade__star{
+    font-size: 70px;
+    transition: color 0.2s ease-in-out;
+}
+.grade__star::before{
+    content: '★';
+}
+.grade__star_passive{
+    color: #868686;
+}
+.grade__star_onchoise{
+    color: #9C7C29;
+}
+.grade__star_active{
+    color:#E5AA11;
+    text-shadow: 0px 0px 7px rgba(229, 170, 17, 0.8);
+}
+.grade__text{
+    margin-top: 10px;
+    color: #777;
+}
 </style>
