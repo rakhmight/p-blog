@@ -3,13 +3,14 @@
         <div class="statistics__logo">
             <light-image :img="path" :height="height" :width="width" :shadow="shadow" :radius="radius"></light-image>
         </div>
-        <div class="statistics__number">{{number}}</div>
+        <div class="statistics__number number">0</div>
         <div class="statistics__description">{{des}}</div>
     </div>
 </template>
 
 <script>
 import LightImage from '../components/LightImage.vue'
+import { CountUp } from 'countup.js'
 
 export default {
     props:{
@@ -18,7 +19,6 @@ export default {
         imgHeight: String,
         imgShadow: String,
         imgRadius: String,
-        stataNumber: String,
         stataDes: String
     },
     data(){
@@ -28,13 +28,20 @@ export default {
             height: this.imgHeight,
             shadow: this.imgShadow,
             radius: this.imgRadius,
-            number: this.stataNumber,
-            des: this.stataDes
+            des: this.stataDes,
+            number: [116,42,76,4]
         }
     },
   components:{
     LightImage
-  }
+  },
+  mounted() {
+    const stataNumbers = document.querySelectorAll('.number')
+
+    for(let i = 0; i!=stataNumbers.length; i++){
+        let countUp = new CountUp(stataNumbers[i], this.number[i], { enableScrollSpy: true });
+    }
+  },
 }
 </script>
 

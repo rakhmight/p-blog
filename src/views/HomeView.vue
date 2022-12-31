@@ -32,7 +32,7 @@
                         <statistics-card :imgPath="'views'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 0px 20px 5px rgba(92, 38, 245, 0.5)'" :imgRadius="'10px'" :stataNumber="'116'" :stataDes="$ml.get('homeStatViewsDes')"></statistics-card>
                         <statistics-card :imgPath="'posts'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 245, 158, 0.5)'" :imgRadius="'10px'" :stataNumber="'42'" :stataDes="$ml.get('homeStatPostsDes')"></statistics-card>
                         <statistics-card :imgPath="'anime'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 146, 245, 0.5)'" :imgRadius="'10px'" :stataNumber="'76'" :stataDes="$ml.get('homeStatAnimeDes')"></statistics-card>
-                        <statistics-card :imgPath="'mark'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(245, 113, 38, 0.5)'" :imgRadius="'10px'" :stataNumber="'4,5'" :stataDes="$ml.get('homeStatDesDes')"></statistics-card>
+                        <statistics-card :imgPath="'mark'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(245, 113, 38, 0.5)'" :imgRadius="'10px'" :stataNumber="'4'" :stataDes="$ml.get('homeStatDesDes')"></statistics-card>
                     </div>
 
                 </div>
@@ -66,7 +66,15 @@
                         <light-text :text="'Последний пост блога'"></light-text>
                     </div>
                     <div class="post__content">
-                        <post></post>
+                        <post
+                        :postTitle="'Скоро рождество!'"
+                        :postMedia="[{src: 'https://images.freeimages.com/images/large-previews/f45/christmas-tree-in-the-office-1639599.jpg'},{src: 'https://images.freeimages.com/images/large-previews/6ee/christmas-composition-a-luminous-star-in-blue-colors-1641501.jpg'}]"
+                        :postDate="'19.12.2022'"
+                        :postViews="32"
+                        :postTags="[{name: 'story', color: '#FF3300'},{name: 'christmas', color:'#006633'},{name: 'cookie', color:'#993300'},{name:'snow',color:'#0000CC'}]"
+                        :postDes="'Unicode is an internationally recognized standard for identifying the different characters we see on our computer screens. Since computers only recognize zeros and ones (i.e. binary), each character is assigned a unique binary number. For example, the capital letter “A” has a Unicode character number of 65. A lowercase “a” has a Unicode character number..'"
+                        :postID="3"
+                        ></post>
                     </div>
                 </div>
             </section>
@@ -172,7 +180,9 @@ import Lebel from '../components/Lebel.vue'
 import axios from 'axios'
 import JSConfetti from 'js-confetti'
 import checkWinter from '../plugins/checkWinter'
-import AniNewCarousel from '../components/AniNewCarousel.vue';
+import AniNewCarousel from '../components/AniNewCarousel.vue'
+//import scrape from '../plugins/scraperInst'
+// !!! есть ошибки
 
 export default {
   data(){

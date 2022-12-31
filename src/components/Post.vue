@@ -1,10 +1,10 @@
 <template>
   <article>
-    <div class="post">
+    <div class="post" :class="`post_${id}`" :post-id="id">
         <div class="post__carousel">
             <v-carousel>
                 <v-carousel-item
-                v-for="(item,i) in items"
+                v-for="(item,i) in carouselItems"
                 :key="i"
                 :src="item.src"
                 reverse-transition="fade-transition"
@@ -19,12 +19,12 @@
             <div class="post__intro-icon"></div>
             <div class="post__intro-content">
               <div class="post__intro-title">
-                <light-text :text="'Какая никакая история'" :fontSize="'20px'"></light-text>
+                <light-text :text="title" :fontSize="'20px'"></light-text>
               </div>
               <div class="post__intro-data">
-                <div class="post__intro-date">07.11.2022</div>
+                <div class="post__intro-date">{{ date }}</div>
                 <div class="post__intro-views">
-                  <span>32</span>
+                  <span>{{ views }}</span>
                   <div class="view-icon"></div>
                 </div>
               </div>
@@ -34,11 +34,12 @@
           <div class="post__line"></div>
 
           <div class="post__contentBox">
-            <p>Unicode is an internationally recognized standard for identifying the different characters we see on our computer screens.</p>
-            <p>Since computers only recognize zeros and ones (i.e. binary), each character is assigned a unique binary number. For example, the capital letter “A” has a Unicode character number of 65. A lowercase “a” has a Unicode character number..</p>
+            {{ des }}
           </div>
 
-          <div class="post__tags" v-if="currentRout == '/blog'">Blog</div>
+          <div class="post__tags" v-if="currentRout == '/blog'">
+            <div class="post__tag" v-for="tag in tags" :style="{ backgroundColor: tag.color }">{{tag.name}}</div>
+          </div>
 
           <div class="post__btn" v-else>
             <btn :btnUrl="'/blog'" :btnText="'Перейти в блог'"/>
@@ -54,22 +55,24 @@ import LightText from './LightText.vue';
 import Btn from './Btn.vue';
 
 export default {
+    props:{
+      postTitle: String,
+      postMedia: Array,
+      postDate: String,
+      postViews: Number,
+      postTags: Array,
+      postDes: String,
+      postID: Number
+    },
     data () {
       return {
-        items: [
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-          },
-        ],
+        carouselItems: this.postMedia,
+        title: this.postTitle,
+        date: this.postDate,
+        views: this.postViews,
+        des: this.postDes,
+        tags: this.postTags,
+        id: this.postID,
 
         currentRout: ''
       }
@@ -85,6 +88,10 @@ export default {
 </script>
 
 <style>
+  article:not(:first-child){
+    margin-top: 30px;
+  }
+  
   .post{
     background-color: #2A2E35;
     border-radius: 15px;
@@ -170,4 +177,24 @@ export default {
       height: 27px;
       width: 27px;
   }
+
+  .post__tags{
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+.post__tag::before{
+    content: '#';
+    margin-right: -2px;
+}
+.post__tag{
+    display: block;
+    border-radius: 5px;
+    padding: 5px 7px;
+    margin-top: 5px;
+}
+.post__tag:not(:first-child){
+    margin-left: 5px;
+}
 </style>

@@ -10,7 +10,7 @@
               <router-link to="/contacts"><p v-text="$ml.get('navContacts')"></p></router-link>
               <router-link to="/blog"><p v-text="$ml.get('navBlog')"></p></router-link>
               <router-link to="/anime"><p v-text="$ml.get('navAnime')"></p></router-link>
-              <a href="#" neutral-nav="true"><p v-text="$ml.get('navStatistic')"></p></a>
+              <a neutral-nav="true" @click="showStatistics"><p v-text="$ml.get('navStatistic')" class="header__link"></p></a>
             </nav>
 
             <div class="languages">
@@ -62,6 +62,26 @@ export default {
       if(checkWinter()){
         this.isExWinter = checkWinter()
         this.logoClass = 'logo-winter'
+      }
+    },
+    methods: {
+      showStatistics: function(){
+         let currentRout = this.$router.currentRoute.path
+
+        if(currentRout != '/'){
+          this.$router.push('/')
+          setTimeout(()=>{
+            window.scrollTo({
+              top:700,
+              behavior: 'smooth'
+            })
+          },500)
+        }else{
+            window.scrollTo({
+              top:700,
+              behavior: 'smooth'
+            })
+        }
       }
     },
 }
@@ -190,5 +210,8 @@ a[neutral-nav]{
   width: 60px;
   height: 60px;
   background-image: url(../assets/media/logo-christmas.svg);
+}
+.header__link{
+  cursor: pointer;
 }
 </style>

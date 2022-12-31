@@ -1,9 +1,11 @@
 <template>
-    <a
+    <!-- <a
     v-bind:href="url"
     class="btn">
     {{text}}
-    </a>
+    </a> -->
+
+    <router-link :to="url" class="btn">{{text}}</router-link>
 </template>
 
 <script>

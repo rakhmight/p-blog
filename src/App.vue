@@ -1,66 +1,68 @@
 <template>
   <div id="app">
+    
+    <div data-app>
+      <div class="wrapper">
+          <let-it-snow v-bind="snowConf" :show="isWinter"></let-it-snow>
 
-    <div class="wrapper">
-        <let-it-snow v-bind="snowConf" :show="isWinter"></let-it-snow>
+          <preloader-component :showHomeLoader="showHomeLoader"/>
+          <header-component :isWinter="isWinter"/>
+          <ul class="lightrope" v-if="isWinter">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
 
-        <preloader-component :showHomeLoader="showHomeLoader"/>
-        <header-component :isWinter="isWinter"/>
-        <ul class="lightrope" v-if="isWinter">
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
+          <div id="snow-container" v-if="isWinter"></div>
+          <canvas id="confetti"></canvas>
 
-        <div id="snow-container" v-if="isWinter"></div>
-        <canvas id="confetti"></canvas>
+          <main>
+            <transition :name="routerTransition">
+              <router-view :isWinter="isWinter"/>
+            </transition>
+          </main>
 
-        <main>
-          <transition :name="routerTransition">
-            <router-view :isWinter="isWinter"/>
-          </transition>
-        </main>
-
-        <footer-component v-if="!$route.meta.hideFooter" />
+          <footer-component v-if="!$route.meta.hideFooter" />
+      </div>
     </div>
 
   </div>
@@ -103,11 +105,14 @@ export default {
           const toDepth = routeDeep.indexOf(to.path)
           const fromDepth = routeDeep.indexOf(from.path)
           this.routerTransition = toDepth > fromDepth ? 'slide-left' : 'slide-right'
+
+          $('html').scrollTop(0);
       }
   },
   mounted(){
     this.show = true
     this.isWinter = checkWinter()
+    
   },
 }
 </script>
@@ -335,5 +340,16 @@ section{
 		 background: rgba(247, 0, 148, 0.4);
 		 box-shadow: 0px 4.6666666667px 24px 3px rgba(247, 0, 148, 0.2);
 	}
+}
+
+::-webkit-scrollbar {
+    width: 15px; /* ширина для вертикального скролла */
+    background-color: #141618;
+}
+
+/* ползунок скроллбара */
+::-webkit-scrollbar-thumb {
+    background-color: #2A2E35;
+    border-radius: 1em;
 }
 </style>
