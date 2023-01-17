@@ -86,6 +86,7 @@ export default {
           speed : 3,
           count : 12,
           size : 10,
+          routerTransition: 'slide-left',
           opacity : 1,
           images: ['https://raw.githubusercontent.com/bob-chen/let_it_snow/master/demo/snow.png',
                   'https://raw.githubusercontent.com/bob-chen/let_it_snow/master/demo/snow.png',

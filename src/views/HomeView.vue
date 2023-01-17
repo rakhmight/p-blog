@@ -1,13 +1,14 @@
 <template>
     
-    <div class="home">
+    <div class="home" v-if="user">
 
         <div class="layers">
             <div class="layer__content">
                 <div class="santa-hat" v-if="isWinter"></div>
-                <div class="layers__photo"></div>
-                <div class="layers__title">Person</div>
-                <div class="layers__subtitle">some text about youself</div>
+                <!-- <div class="layers__photo" :style="{'background-image': user.profilePic}" crossorigin="anonymous"></div> -->
+                <img class="layers__photo" crossorigin="anonymous" :src="user.profilePic ? user.profilePic : 'url(' + require('../assets/media/person.png') + ')'" />
+                <div class="layers__title">{{ user.username ? user.username : 'Person' }}</div>
+                <div class="layers__subtitle">{{ user.bio ? user.bio : 'bio' }}</div>
             </div>
 
             <div class="avatar" left v-bind:style="{'background-image': 'url(' + require('../assets/media/naruto.svg') + ')'}"></div>
@@ -181,8 +182,7 @@ import axios from 'axios'
 import JSConfetti from 'js-confetti'
 import checkWinter from '../plugins/checkWinter'
 import AniNewCarousel from '../components/AniNewCarousel.vue'
-//import scrape from '../plugins/scraperInst'
-// !!! есть ошибки
+import getUserDatas from '@/services/getUserDatas'
 
 export default {
   data(){
@@ -192,6 +192,7 @@ export default {
         appreciated: false,
         gradeMark: 0,
         isWinter: false,
+        user: {}
     }
   },
   mounted(){
@@ -210,6 +211,11 @@ export default {
     this.exGrade()
 
     this.isWinter = checkWinter()
+
+    getUserDatas()
+    .then((data)=>{
+        this.user = { ...data }
+    })
   },
   watch:{
     appreciated: function (){
@@ -381,7 +387,7 @@ section{
     height: 120px;
     width: 120px;
     top: -50px;
-    left: -5px;
+    left: -30px;
     background-image: url(../assets/media/santa-hat.svg);
     background-size: cover;
     transform: rotate(-6deg);
@@ -390,8 +396,8 @@ section{
 .layers__photo{
     width: 150px;
     height: 150px;
-    background-image: url(../assets/media/person.png);
     margin: 0 auto;
+    border-radius: 80px;
 }
 
 .layers__title{
