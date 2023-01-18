@@ -3,7 +3,7 @@
         <div class="statistics__logo">
             <light-image :img="path" :height="height" :width="width" :shadow="shadow" :radius="radius"></light-image>
         </div>
-        <div class="statistics__number number">0</div>
+        <div class="statistics__number" :class="{'number': !stataNumber}">{{ stataNumber ? stataNumber : 0 }}</div>
         <div class="statistics__description">{{des}}</div>
     </div>
 </template>
@@ -19,7 +19,8 @@ export default {
         imgHeight: String,
         imgShadow: String,
         imgRadius: String,
-        stataDes: String
+        stataDes: String,
+        stataNumber: Number
     },
     data(){
         return{
@@ -36,11 +37,11 @@ export default {
     LightImage
   },
   mounted() {
-    const stataNumbers = document.querySelectorAll('.number')
+    // const stataNumbers = document.querySelectorAll('.number')
 
-    for(let i = 0; i!=stataNumbers.length; i++){
-        let countUp = new CountUp(stataNumbers[i], this.number[i], { enableScrollSpy: true });
-    }
+    // for(let i = 0; i!=stataNumbers.length; i++){
+    //     let countUp = new CountUp(stataNumbers[i], this.number[i], { enableScrollSpy: true });
+    // }
   },
 }
 </script>

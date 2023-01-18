@@ -31,10 +31,10 @@
                 <div class="main__content stata-wrapper">
 
                     <div class="statistics">
-                        <statistics-card :imgPath="'views'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 0px 20px 5px rgba(92, 38, 245, 0.5)'" :imgRadius="'10px'" :stataNumber="'116'" :stataDes="$ml.get('homeStatViewsDes')"></statistics-card>
-                        <statistics-card :imgPath="'posts'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 245, 158, 0.5)'" :imgRadius="'10px'" :stataNumber="'42'" :stataDes="$ml.get('homeStatPostsDes')"></statistics-card>
-                        <statistics-card :imgPath="'anime'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 146, 245, 0.5)'" :imgRadius="'10px'" :stataNumber="'76'" :stataDes="$ml.get('homeStatAnimeDes')"></statistics-card>
-                        <statistics-card :imgPath="'mark'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(245, 113, 38, 0.5)'" :imgRadius="'10px'" :stataNumber="'4'" :stataDes="$ml.get('homeStatDesDes')"></statistics-card>
+                        <statistics-card :imgPath="'views'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 0px 20px 5px rgba(92, 38, 245, 0.5)'" :imgRadius="'10px'" :stataDes="$ml.get('homeStatViewsDes')"></statistics-card>
+                        <statistics-card :imgPath="'posts'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 245, 158, 0.5)'" :imgRadius="'10px'" :stataDes="$ml.get('homeStatPostsDes')"></statistics-card>
+                        <statistics-card :imgPath="'anime'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 146, 245, 0.5)'" :imgRadius="'10px'" :stataDes="$ml.get('homeStatAnimeDes')"></statistics-card>
+                        <statistics-card v-if="middleMark" :imgPath="'mark'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(245, 113, 38, 0.5)'" :imgRadius="'10px'" :stataNumber="middleMark" :stataDes="$ml.get('homeStatDesDes')"></statistics-card>
                     </div>
 
                 </div>
@@ -184,6 +184,9 @@ import JSConfetti from 'js-confetti'
 import checkWinter from '../plugins/checkWinter'
 import AniNewCarousel from '../components/AniNewCarousel.vue'
 import getUserDatas from '@/services/getUserDatas'
+import putGrade from '@/services/putGrade'
+import getMarks from '@/services/getMarks'
+import { CountUp } from 'countup.js'
 
 export default {
   data(){
@@ -193,7 +196,9 @@ export default {
         appreciated: false,
         gradeMark: 0,
         isWinter: false,
-        user: {}
+        user: {},
+        number: [116,25,14],
+        middleMark:0
     }
   },
   mounted(){
@@ -217,6 +222,22 @@ export default {
     .then((data)=>{
         this.user = { ...data }
     })
+
+    getMarks()
+    .then((data)=>{
+        if(data){
+            let marksSum = 0
+            for(let i = 0; i != data.length; i++){
+                marksSum +=data[i]
+            }
+            this.middleMark = marksSum/data.length
+        }
+    })
+
+    const stataNumbers = document.querySelectorAll('.number')
+        for(let i = 0; i!=stataNumbers.length; i++){
+            let countUp = new CountUp(stataNumbers[i], this.number[i], { enableScrollSpy: true });
+        }
   },
   watch:{
     appreciated: function (){
@@ -287,15 +308,18 @@ export default {
     grade: function (mark){
         // СОХРАНЕНИЕ ОЦЕНКИ В БД
 
-        let data = JSON.stringify({
-            mark,
-            date: new Date()
+        putGrade(mark)
+        .then(()=>{
+            let data = JSON.stringify({
+                mark,
+                date: new Date()
+            })
+
+            localStorage.setItem('grade', data)
+            this.appreciated = true
+
+            this.confetti(mark)
         })
-
-        localStorage.setItem('grade', data)
-        this.appreciated = true
-
-        this.confetti(mark)
     },
     exGrade: function (){
         if(this.appreciated){
