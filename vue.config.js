@@ -9,7 +9,13 @@ const CorsProxyWebpackPlugin = require('crossorigin-webpack-plugin')
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   devServer: {
-    proxy: 'https://instagram.ftas1-1.fna.fbcdn.net/',
+    proxy: {
+      '/': {
+        target: 'https://instagram.ftas1-1.fna.fbcdn.net/',
+        ws: true,
+        changeOrigin: true
+      },
+    }
   },
   transpileDependencies: [
     'vuetify'
