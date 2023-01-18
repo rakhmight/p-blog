@@ -4,9 +4,10 @@
 
         <div class="layers">
             <div class="layer__content">
-                <div class="santa-hat" v-if="isWinter"></div>
-                <!-- <div class="layers__photo" :style="{'background-image': user.profilePic}" crossorigin="anonymous"></div> -->
-                <img class="layers__photo" crossorigin="anonymous" :src="user.profilePic ? user.profilePic : 'url(' + require('../assets/media/person.png') + ')'" />
+                <div class="layers__photo-wrap">
+                    <div class="santa-hat" v-if="isWinter"></div>
+                    <img class="layers__photo" crossorigin="anonymous" :src="user.profilePic ? user.profilePic : 'url(' + require('../assets/media/person.png') + ')'" />
+                </div>
                 <div class="layers__title">{{ user.username ? user.username : 'Person' }}</div>
                 <div class="layers__subtitle">{{ user.bio ? user.bio : 'bio' }}</div>
             </div>
@@ -381,6 +382,7 @@ section{
     transform: translate3d(0, calc(var(--scrollTop) / 2),0);
     transition: var(--transition);
     position: relative;
+    max-width: 600px;
 }
 .santa-hat{
     position: absolute;
@@ -393,6 +395,12 @@ section{
     transform: rotate(-6deg);
 }
 
+.layers__photo-wrap{
+    width: 150px;
+    height: 150px;
+    position: relative;
+    margin: 0 auto;
+}
 .layers__photo{
     width: 150px;
     height: 150px;
