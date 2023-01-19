@@ -1,9 +1,6 @@
 <template>
     
-    <div class="anicard"
-    :class="[allowPreview ? 'anime-card-preview' : '', cardClass]"
-    @mouseover="showPreview"
-    @mouseleave="hidePreview">
+    <div class="anicard" :class="[cardClass]">
 
         <div class="anicard__wallpaper" :style="{ backgroundImage: picture }"></div>
         <div class="anicard__content">
@@ -27,7 +24,6 @@ export default {
         acTags: Array,
         acDes: String,
         acClass: Array,
-        acPreview: String,
     },
     data(){
         return{
@@ -36,48 +32,9 @@ export default {
             tags: this.acTags,
             des: this.acDes,
             cardClass: this.acClass,
-            video: this.acPreview,
-            allowPreview: true,
         }
     },
     methods: {
-        showPreview: function (){
-            if(this.video){
-                let preview = document.querySelector('.preview')
-                let previewVideoBlock = preview.querySelector('.preview__video')
-                let previewVideo = previewVideoBlock.querySelector('iframe ')
-                let previewTitle = preview.querySelector('.preview__title')
-                let previewTags = preview.querySelector('.preview__tags')
-
-                previewVideo.setAttribute('src', this.video+'?rel=0&amp&showinfo=0&amp&autoplay=1&mute=1')
-                previewTitle.innerHTML=this.title
-
-                while (previewTags.firstChild) {
-                    previewTags.removeChild(previewTags.firstChild)
-                }
-
-                for(let i = 0; i!=this.tags.length; i++){
-                    let span = document.createElement('span')
-                    span.innerHTML =this.tags[i].name
-                    previewTags.append(span)
-                }
-
-                preview.style.display = 'block'
-            }
-        },
-        hidePreview: function (){
-            let preview = document.querySelector('.preview')
-            let previewTags = preview.querySelector('.preview__tags')
-            let previewVideoBlock = preview.querySelector('.preview__video')
-            let previewVideo = previewVideoBlock.querySelector('iframe ')
-            previewVideo.removeAttribute('src')
-
-            preview.style.display = 'none'
-
-            previewTags.innerHTML=''
-
-            this.allowPreview = false
-        }
     },
 }
 </script>
@@ -87,6 +44,7 @@ export default {
     background-color: #2A2E35;
     width: 250px;
     border-radius: 20px;
+    margin-top: 30px;
 }
 .anicard__wallpaper{
     width: 100%;

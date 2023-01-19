@@ -89,13 +89,10 @@
                 </div>
 
                 <div class="interests__content">
-                    <lebel :lebelPicture="'int-taekwondo'" :lebelDes="'Taekwondo'"/>
-                    <lebel :lebelPicture="'int-law'" :lebelDes="'Право и юриспруденция'"/>
-                    <lebel :lebelPicture="'int-anime'" :lebelDes="'Аниме'"/>
-
-                    <lebel :lebelPicture="'int-eng'" :lebelDes="'English language'"/>
-                    <lebel />
-                    <lebel />
+                    <lebel :lebelPicture="'🥋'" :lebelDes="'Taekwondo'"/>
+                    <lebel :lebelPicture="'🌝'" :lebelDes="'Anime'"/>
+                    <lebel :lebelPicture="'🌸'" :lebelDes="'Flowers'"/>
+                    <lebel :lebelPicture="'⚡️'" :lebelDes="'JS'"/>
                 </div>
             </section>
 
@@ -554,10 +551,9 @@ padding: 10px 0 0px;
 
 .interests__content{
     width: 835px;
-    height: 280px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-content: space-between;
     margin-top: 30px;
 }
@@ -566,7 +562,6 @@ padding: 10px 0 0px;
     width: 100%;
 }
 .anime__content{
-    margin-top: 30px;
     width: 100%;
 }
 .anime__btn{
@@ -656,5 +651,131 @@ padding: 10px 0 0px;
 .grade__text{
     margin-top: 10px;
     color: #777;
+}
+
+@media only screen and (max-width: 1650px)  {
+.avatar{
+    display: none;
+}
+}
+
+@media only screen and (max-width: 770px) {
+  .container{
+    max-width: 100%;
+  }
+
+  .layers__photo{
+    width: 120px;
+    height: 120px;
+  }
+  .santa-hat{
+    height: 100px;
+    width: 100px;
+    transform: rotate(-5deg);
+    top: -40px;
+    left: -20px;
+  }
+  .layers__photo-wrap{
+    width: 120px;
+    height: 120px;
+  }
+  .layer__content{
+    max-width: 400px;
+  }
+  .layers__title{
+    font-size: 1.5em;
+  }
+  .clouds{
+    height: 100px;
+    background-size: cover;
+  }
+  .stata-wrapper{
+    width: 100%
+  }
+  .statistics__card{
+    width: 150px;
+    margin-top: 20px;
+  }
+  .statistics{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .main__title{
+    margin-bottom: 20px;
+  }
+  .layers{
+    margin-bottom: 50px;
+  }
+  section{
+    padding: 40px 0;
+  }
+  
+  .statistics__number{
+    font-size: 1.8em;
+  }
+  .about-wrapper{
+    width: 100%;
+  }
+  .about{
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+  .about__content{
+    width: 100%;
+    padding: 0 15px;
+  }
+  .about__title{
+    margin-top: 10px;
+  }
+  .about__description{
+    padding: 10px 0;
+  }
+  .about__btn{
+    margin-top: 25px;
+  }
+
+  .interests__content{
+    width: 100%;
+  }
+
+  .main__title{
+    margin-bottom: 15px;
+  }
+
+  .post__content{
+    margin-top: 15px;
+  }
+
+  .interests__content{
+    margin-top: 5px;
+  }
+
+  .anime__title{
+    margin-bottom: -10px;
+  }
+
+  .quote{
+    width: 100%;
+    padding: 10px;
+  }
+    .quote__content{
+        margin-top: 15px;
+    }
+  .quote__text{
+    width: 100%;
+    font-size: 1.1em;
+  }
+  .quote__metter{
+    margin-left: 8px;
+  }
+
+  .grade__box{
+    width: 250px;
+  }
+  .grade__star {
+    font-size: 2em;
+  }
 }
 </style>

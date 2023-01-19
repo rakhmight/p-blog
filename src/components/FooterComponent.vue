@@ -14,7 +14,7 @@
           </div>
 
           <div class="footer__msg footer-box">
-            <div class="footer__des">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+            <div class="footer__des">Сайт блога запущен в тестовом режиме с кучей багов, ошибок и trash-кодом</div>
             <div class="footer__form">
               <review/>
             </div>
@@ -186,5 +186,27 @@ footer>.container{
   border-radius: 3px;
   padding: 4px 10px;
   margin-left: 5px;
+}
+
+@media only screen and (max-width: 770px){
+  .footer-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 20px 0;
+    align-items: center;
+}
+
+.footer__nav{
+  display:none
+}
+
+.footer__dev-wrapper{
+  margin-top: 30px;
+}
+
+.footer__dev-des{
+  margin-bottom: -7px;
+}
 }
 </style>

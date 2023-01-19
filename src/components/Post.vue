@@ -2,13 +2,30 @@
   <article>
     <div class="post" :class="`post_${id}`" :post-id="id">
         <div class="post__carousel">
-            <v-carousel>
+            <v-carousel width="100%" :hide-delimiters="currentWindowSize<=770">
+              <template v-slot:prev="{ on, attrs }">
+                <v-icon
+                  color="#fff"
+                  v-bind="attrs"
+                  v-on="on"
+                >mdi-arrow-left</v-icon>
+              </template>
+              <template v-slot:next="{ on, attrs }">
+                <v-icon
+                  color="#fff"
+                  v-bind="attrs"
+                  v-on="on"
+                >mdi-arrow-right</v-icon>
+              </template>
                 <v-carousel-item
                 v-for="(item,i) in carouselItems"
                 :key="i"
                 :src="item.src"
                 reverse-transition="fade-transition"
                 transition="fade-transition"
+                touchless="true"
+                touch
+                :width="currentWindowSize"
                 >
               </v-carousel-item>
             </v-carousel>
@@ -74,7 +91,8 @@ export default {
         tags: this.postTags,
         id: this.postID,
 
-        currentRout: ''
+        currentRout: '',
+        currentWindowSize: window.innerWidth
       }
     },
     components:{
@@ -83,7 +101,11 @@ export default {
     },
     mounted() {
       this.currentRout = this.$router.currentRoute.path
-    }
+
+      window.addEventListener('resize', (e) => {
+        this.currentWindowSize = window.innerWidth
+      });
+    },
 }
 </script>
 
@@ -196,5 +218,27 @@ export default {
 }
 .post__tag:not(:first-child){
     margin-left: 5px;
+}
+
+
+@media only screen and (max-width: 770px){
+  .post,.post__intro-content,.post__carousel{
+    width: 100%;
+  }
+  .v-responsive__content{
+    width: 100%;
+  }
+  .post__main {
+    padding:15px;
+  }
+  .view-icon{
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+  }
+  .post__intro-icon{
+    margin-right: 8px;
+  }
+
 }
 </style>

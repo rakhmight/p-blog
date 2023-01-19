@@ -31,7 +31,42 @@
                 </ul>
               </div>
             </div>
-           
+            
+            <v-app-bar-nav-icon class="mobile-menu" @click.stop="drawer = !drawer" dark></v-app-bar-nav-icon>
+            <div class="mobile-menu mobile-menu-content" v-if="drawer">
+              <v-navigation-drawer
+              v-model="drawer"
+              absolute
+              temporary
+              right
+              dark
+              >
+                <v-list
+                  nav
+                  dense
+                >
+                  <v-list-item-group>
+                    
+                      <router-link to="/"><v-list-item><p v-text="$ml.get('navMain')"></p></v-list-item></router-link>
+                    
+
+                    
+                      <router-link to="/contacts"><v-list-item><p v-text="$ml.get('navContacts')"></p></v-list-item></router-link>
+                    
+
+                    
+                      <router-link to="/blog"><v-list-item><p v-text="$ml.get('navBlog')"></p></v-list-item></router-link>
+                    
+
+                    
+                      <router-link to="/anime"><v-list-item><p v-text="$ml.get('navAnime')"></p></v-list-item></router-link>
+                    
+                  </v-list-item-group>
+                </v-list>
+              </v-navigation-drawer>
+
+            </div>
+
           </div>
         </div>
 
@@ -55,7 +90,8 @@ export default {
           home:true,
         },
         isExWinter: false,
-        logoClass: 'logo-default'
+        logoClass: 'logo-default',
+        drawer: false,
       }
     },
     mounted() {
@@ -121,6 +157,7 @@ header{
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 .header__nav{
   display: flex;

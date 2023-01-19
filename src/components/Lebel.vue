@@ -1,6 +1,6 @@
 <template>
     <div class="lebel">
-        <div class="lebel__picture" v-bind:class="picture"></div>
+        <div class="lebel__picture"><p>{{ picture }}</p></div>
         <div class="lebel__description">{{des}}</div>
     </div>
 </template>
@@ -23,34 +23,17 @@ export default {
 <style>
 .lebel{
     display: flex;
-    flex-direction: row;
-    width: 350px;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    text-align: start;
+    text-align: center;
     font-size: 20px;
+    margin-top: 10px;
 }
-.lebel__picture{
-    width: 80px;
-    height: 80px;
-    background-color: #2A2E35;
-    border-radius: 75px;
-    background-position: center center;
+.lebel__picture>p{
+font-size: 2.5em;
 }
 .lebel__description{
-    width: 260px;
-}
-
-.int-taekwondo{
-    background-image: url(../assets/media/taekwondo.svg);
-}
-.int-law{
-    background-image: url(../assets/media/law.svg);
-}
-.int-anime{
-    background-image: url(../assets/media/otaku.svg);
-}
-.int-eng{
-    background-image: url(../assets/media/eng.svg);
+    width: 150px;
 }
 </style>

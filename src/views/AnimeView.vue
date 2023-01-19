@@ -30,15 +30,6 @@
 
     </div>
 
-    <div class="preview">
-      <light-text :text="'Preview'" :fontSize="'26px'"></light-text>
-      <div class="preview__video">
-        <iframe width="328" height="185" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen muted></iframe>
-      </div>
-      <div class="preview__title"></div>
-      <div class="preview__tags"></div>
-    </div>
-
   </div>
 </template>
 

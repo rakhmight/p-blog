@@ -353,4 +353,62 @@ section{
     background-color: #2A2E35;
     border-radius: 1em;
 }
+.mobile-menu{
+  display: none;
+}
+
+
+
+
+@media only screen and (max-width: 770px)  {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .container{
+    width: 100%;
+  }
+  .languages{
+    display: none
+  }
+  .header__nav{
+    display: none
+  }
+  .header__wrapper{
+    height: 60px;
+    padding: 0 10px;
+  }
+  .snow{
+    top:45px;
+    height: 40px;
+  }
+  body{
+    font-size: 1em;
+    width: 100%;
+  }
+  .lightrope {
+    top: 45px;
+  }
+  .logo-default{
+    width: 35px;
+    height: 35px;
+  }
+  .logo-winter{
+    width: 45px;
+    height: 45px;
+  }
+  .wrapper{
+    width: 100%;
+  }
+  .mobile-menu{
+    display: block;
+  }
+
+  .mobile-menu-content{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100vh;
+  }
+}
 </style>
