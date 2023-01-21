@@ -9,10 +9,10 @@
           </div>
           <div class="blog-header__content">
             <div class="blog-header__about">
-              <div class="blog-header__user-picture"></div>
+              <img class="blog-header__user-picture" crossorigin="anonymous" :src="user.profilePic ? user.profilePic : 'url(' + require('../assets/media/person.png') + ')'" />
               <div class="blog-header__user-datas">
-                <div class="blog-header__user-id">@user_id</div>
-                <div class="blog-header__user-status">some text (user status)</div>
+                <div class="blog-header__user-id">{{ user.username }}</div>
+                <div class="blog-header__user-status">{{ user.bio }}</div>
               </div>
             </div>
             <div class="blog-header__art-count">author of 12 articles</div>
@@ -191,11 +191,13 @@ import Post from "../components/Post.vue"
 import LightText from "../components/LightText.vue"
 import SearchingBar from "../components/SearchingBar.vue"
 import Review from "../components/Review.vue"
+import getUserDatas from '@/services/getUserDatas'
 
 export default {
     data () {
       return {
         alert: true,
+        user: {}
       }
     },
   components:{
@@ -207,6 +209,10 @@ export default {
   watch:{
   },
   mounted() {
+    getUserDatas()
+    .then((data)=>{
+        this.user = { ...data }
+    })
 
     const posts = document.querySelectorAll('.timestamp__day')
 
@@ -428,5 +434,43 @@ export default {
 }
 .v-alert.theme--dark.v-sheet{
 background-color: #2A2E35;
+}
+
+
+@media only screen and (max-width: 770px){
+  .blog-orient{
+    display: none
+  }
+  
+  .blog-header__content{
+    flex-direction: column;
+  }
+
+  .blog-main {
+    width: 100%;
+    display: flex;
+}
+
+.blog-header__art-count{
+  display: none;
+}
+.blog-header__content{
+  height: auto;
+}
+.blog-header{
+  height: auto;
+}
+.blog-header__content{
+  padding: 10px;
+}
+.blog-header__content{
+  align-items:flex-start;
+}
+.blog-header__user-status{
+font-size: 1em;
+}
+.blog-header__user-id{
+  font-size: 1.3em;
+}
 }
 </style>

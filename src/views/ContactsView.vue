@@ -163,5 +163,8 @@ export default {
   .social__user-id{
     font-size: 1.3em;
   }
+  .contacts__other-social{
+    align-items: center;
+  }
 }
 </style>

@@ -44,11 +44,14 @@ export default {
     },
     mounted() {
       this.currentRout = this.$router.currentRoute.path
+        if(this.currentWindowSize>=770){
+            this.options.slidesToScroll = 1
+        }
 
       window.addEventListener('resize', (e) => {
         this.currentWindowSize = window.innerWidth
 
-        if(this.currentWindowSize<=770){
+        if(this.currentWindowSize>=770){
             this.options.slidesToScroll = 1
         }
       });
