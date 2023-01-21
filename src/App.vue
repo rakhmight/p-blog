@@ -81,12 +81,13 @@ export default {
     return{
       showHomeLoader: true,
       isWinter:false,
+      currentWindowSize: window.innerWidth,
+      routerTransition: 'slide-left',
       snowConf: {
           windPower : 1,  
           speed : 3,
           count : 12,
           size : 10,
-          routerTransition: 'slide-left',
           opacity : 1,
           images: ['https://raw.githubusercontent.com/bob-chen/let_it_snow/master/demo/snow.png',
                   'https://raw.githubusercontent.com/bob-chen/let_it_snow/master/demo/snow.png',
@@ -113,7 +114,26 @@ export default {
   mounted(){
     this.show = true
     this.isWinter = checkWinter()
+    this.currentWindowSize <= 770 ?  this.snowConf.size = 6 : this.snowConf.size = 10
+    this.currentWindowSize <= 770 ?  this.snowConf.count = 1 : this.snowConf.count = 12
+    this.currentWindowSize <= 770 ?  this.snowConf.speed = 1 : this.snowConf.speed = 3
+
+    window.addEventListener('resize', (e) => {
+      this.currentWindowSize = window.innerWidth
+
+      if(this.currentWindowSize <= 770){
+        this.snowConf.size = 6
+        this.snowConf.count = 1
+        this.snowConf.speed = 1
+      } else{
+        this.snowConf.size = 10
+        this.snowConf.speed = 3
+        this.snowConf.count = 12
+      }
+    })
     
+    let confetti = document.querySelector('#confetti')
+    confetti.style.display = 'none'
   },
 }
 </script>

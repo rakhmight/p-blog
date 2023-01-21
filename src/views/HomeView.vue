@@ -315,7 +315,13 @@ export default {
             localStorage.setItem('grade', data)
             this.appreciated = true
 
+            
+            let confetti = document.querySelector('#confetti')
+            confetti.style.display = 'block'
             this.confetti(mark)
+            setTimeout(()=>{
+                confetti.style.display = 'none'
+            },4000)
         })
     },
     exGrade: function (){
