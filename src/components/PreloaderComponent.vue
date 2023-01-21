@@ -77,4 +77,12 @@ export default {
     transform: rotate(360deg);
   }
 }
+
+
+@media only screen and (max-width: 770px){
+    .sharingan{
+        width: 100px;
+        height: 100px;
+    }
+}
 </style>

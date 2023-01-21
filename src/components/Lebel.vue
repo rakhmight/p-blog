@@ -1,6 +1,7 @@
 <template>
     <div class="lebel">
-        <div class="lebel__picture"><p>{{ picture }}</p></div>
+        <div class="lebel__picture" v-if="picture"><p>{{ picture }}</p></div>
+        <div class="lebel__picture" v-if="!picture"><div class="no-emoji"></div></div>
         <div class="lebel__description">{{des}}</div>
     </div>
 </template>
@@ -35,5 +36,12 @@ font-size: 2.5em;
 }
 .lebel__description{
     width: 150px;
+}
+
+.no-emoji{
+    width: 55px;
+    height: 55px;
+    background-image: url('../assets/media/smile.png');
+    background-size: contain;
 }
 </style>

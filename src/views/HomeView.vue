@@ -1,6 +1,6 @@
 <template>
     
-    <div class="home" v-if="user">
+    <div class="home" v-if="user.length!=0">
 
         <div class="layers">
             <div class="layer__content">
@@ -43,14 +43,15 @@
             <section>
                 <div class="about-wrapper">
                     <div class="about">
-                        <div class="about__image"></div>
+                        <img v-if="user.aboutMe && user.aboutMe.image" :src="user.aboutMe.image" class="about__image" />
+                        <div v-else class="about__no-image"></div>
                         <div class="about__content">
                             <div class="about__title">
                                 <light-text :text="'Обо мне и мой блог'"></light-text>
                             </div>
                             <div class="about__description">
                                 <p>
-                                    {{ user.aboutMe }}
+                                    {{ user.aboutMe ? user.aboutMe.text : 'About person self' }}
                                 </p>
                             </div>
                             <div class="about__btn">
@@ -88,10 +89,12 @@
                 </div>
 
                 <div class="interests__content">
-                    <lebel :lebelPicture="'🥋'" :lebelDes="'Taekwondo'"/>
-                    <lebel :lebelPicture="'🌝'" :lebelDes="'Anime'"/>
-                    <lebel :lebelPicture="'🌸'" :lebelDes="'Flowers'"/>
-                    <lebel :lebelPicture="'⚡️'" :lebelDes="'JS'"/>
+                    <lebel
+                    v-for="interest in user.interestings"
+                    v-bind:key="interest.name"
+                    :lebelPicture="interest.emoji"
+                    :lebelDes="interest.name"
+                    />
                 </div>
             </section>
 
@@ -217,7 +220,6 @@ export default {
     getUserDatas()
     .then((data)=>{
         this.user = { ...data }
-        console.log(this.user);
     })
 
     getMarks()
@@ -527,10 +529,28 @@ padding: 10px 0 0px;
 }
 
 .about__image{
-    width: 323px;
+    width: 300px;
+    height: 405px;
+    object-fit: cover;
+    image-rendering: crisp-edges;
+    border-radius: 10px;
+}
+.about__no-image{
+    width: 300px;
     height: 405px;
     background-color: #2A2E35;
     border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.about__no-image::before{
+    color: rgba(95, 95, 95, 0.5);
+    content: 'image';
+    padding: 100px 40px;
+    font-size: 2em;
+    padding: -20px;
+    outline: 5px solid rgb(95, 95, 95, 0.5);
 }
 .about__content{
     width: 616px;
@@ -783,5 +803,30 @@ padding: 10px 0 0px;
   .grade__star {
     font-size: 2em;
   }
+
+  .about__image{
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    image-rendering: crisp-edges;
+    border-radius: 10px;
+    }
+  .about__no-image{
+    width: 250px;
+    height: 350px;
+    background-color: #2A2E35;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .about__no-image::before{
+    color: rgba(95, 95, 95, 0.5);
+    content: 'image';
+    padding: 100px 40px;
+    font-size: 2em;
+    padding: -20px;
+    outline: 5px solid rgb(95, 95, 95, 0.5);
+    }
 }
 </style>

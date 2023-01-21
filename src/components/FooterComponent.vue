@@ -93,7 +93,7 @@ footer{
   margin-top: 50px;
   height: auto;
   background-color: #070B18;
-  z-index: 5;
+  z-index: 3;
 }
 footer>.container{
   height: 100%;
