@@ -20,7 +20,7 @@ export default {
         imgShadow: String,
         imgRadius: String,
         stataDes: String,
-        stataNumber: Number
+        stataNumber: String
     },
     data(){
         return{

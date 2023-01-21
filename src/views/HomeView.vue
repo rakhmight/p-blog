@@ -34,7 +34,7 @@
                         <statistics-card :imgPath="'views'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 0px 20px 5px rgba(92, 38, 245, 0.5)'" :imgRadius="'10px'" :stataDes="$ml.get('homeStatViewsDes')"></statistics-card>
                         <statistics-card :imgPath="'posts'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 245, 158, 0.5)'" :imgRadius="'10px'" :stataDes="$ml.get('homeStatPostsDes')"></statistics-card>
                         <statistics-card :imgPath="'anime'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(38, 146, 245, 0.5)'" :imgRadius="'10px'" :stataDes="$ml.get('homeStatAnimeDes')"></statistics-card>
-                        <statistics-card v-if="middleMark" :imgPath="'mark'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(245, 113, 38, 0.5)'" :imgRadius="'10px'" :stataNumber="middleMark" :stataDes="$ml.get('homeStatDesDes')"></statistics-card>
+                        <statistics-card v-if="middleMark" :imgPath="'mark'" :imgHeight="'72px'" :imgWidth="'72px'" :imgShadow="'0px 4px 20px 5px rgba(245, 113, 38, 0.5)'" :imgRadius="'10px'" :stataNumber="middleMark.toFixed(1)+''" :stataDes="$ml.get('homeStatDesDes')"></statistics-card>
                     </div>
 
                 </div>
@@ -50,10 +50,9 @@
                             </div>
                             <div class="about__description">
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, animi atque illum labore nemo impedit repellat! <br>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores quasi eum consequatur nemo. Tempora, quis et? Consequatur laborum, nemo sequi reiciendis modi non laudantium corrupti dolorum rem facere repudiandae id!
+                                    {{ user.aboutMe }}
                                 </p>
                             </div>
-                            <div class="about__subdes"><p>Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p></div>
                             <div class="about__btn">
                                 <btn :btnUrl="'/blog'" :btnText="'Перейти в блог'"></btn>
                             </div>
@@ -218,6 +217,7 @@ export default {
     getUserDatas()
     .then((data)=>{
         this.user = { ...data }
+        console.log(this.user);
     })
 
     getMarks()

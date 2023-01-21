@@ -16,11 +16,30 @@
 
       <div class="anime-category">
         <div class="category"
+        v-if="currentWindowSize >= 770"
         v-for="tab in tabs"
         v-bind:key="tab"
         v-bind:class="{ 'category_active': currentTab === tab }"
         v-on:click="currentTab = tab"
         >{{ tab }}</div>
+
+        
+        <v-expansion-panels dark v-if="currentWindowSize < 770">
+                <v-expansion-panel>
+                <v-expansion-panel-header color="#2A2E35">
+                    Раздел: {{ currentTab }}
+                </v-expansion-panel-header>
+                <v-expansion-panel-content color="#2A2E35">
+                  <div class="category"
+                  v-for="tab in tabs"
+                  v-bind:key="tab"
+                  v-bind:class="{ 'category_active': currentTab === tab }"
+                  v-on:click="currentTab = tab"
+                  >{{ tab }}</div>
+
+                </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
       </div>
 
       
@@ -57,8 +76,14 @@ export default {
   data() {
     return {  
       currentTab: 'All',
-      tabs: ['All', 'Watch', 'Watched', 'Will','Favorite']
+      tabs: ['All', 'Watch', 'Watched', 'Will','Favorite'],
+      currentWindowSize: window.innerWidth,
     }
+  },
+  mounted() {
+      window.addEventListener('resize', (e) => {
+          this.currentWindowSize = window.innerWidth
+      });
   },
   computed: {
     currentTabComponent() {
@@ -176,6 +201,63 @@ export default {
 .theme--dark.v-pagination .v-pagination__item--active {
   color: #399AF4;
   box-shadow: 0px 3px 5px #55abfc80;
+}
+
+@media only screen and (max-width: 770px){
+  .recent-anime__title{
+    margin-bottom: 0;
+  }
+
+  
+  .v-expansion-panel-header{
+        justify-content: space-between;
+        padding: 0;
+        min-height: auto;
+    }
+    .v-expansion-panel::before{
+        box-shadow: none;
+    }
+    .v-expansion-panel--active > .v-expansion-panel-header {
+        min-height: auto
+    }
+    .v-expansion-panel-content__wrap {
+        padding: 15px 5px 0;
+    }
+
+    .searching-bar__search-btn{
+        margin-top: 20px;
+    }
+
+    .anime-category{
+      display: block;
+      padding: 15px;
+    }
+    .category:not(:last-child) {
+        border-right: none;
+        border-bottom: 1px #777 solid;
+    }
+    .category:first-child,.category:last-child {
+      border-radius: 0;
+    }
+    .category_active{
+      border-bottom: none;
+      color: #2660F5;
+    }
+    .category:hover:not(:last-child){
+      border-bottom: 1px #777 solid;
+    }
+    .category:hover:last-child{
+      border-bottom: none
+    }
+
+    .anime-cards-layout {
+      width: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
 }
 </style>
   
