@@ -1,24 +1,13 @@
-# p-blog
+# P-blog client
 
-## Project setup
-```
-npm install
-```
+### Об проекте
+Клиент блога. Написана на Vue.js. На клиенте есть зимняя тема (длится 1 сезон). Есть роутинг, реализовано 5 страниц: главная страница, контакты, блог (с публикациями), список сериалов (смотрел, хочу смотреть, смотрю), страничка 404.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Заполнение блога осуществляется через телеграм бот: [P-blog tg-bot](https://github.com/rakhmight/pblog-tg-bot)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+> P.S. Очень неграмотно написанная кодовая база. <strong>Разработка прекращена.</strong>
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Запуск и зависимости
+- Заполнение данных для подключения к Firestore в файле services/db.js
+- Установка зависимостей: npm i
+- Сборка проекта: npm run build
